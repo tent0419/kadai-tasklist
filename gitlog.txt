@@ -1,0 +1,35 @@
+commit bfe12fa569b8fbc4a0e448a7f49b362423cfe7d3
+Author: tent <ryo_special_1@yahoo.co.jp>
+Date:   Sat Mar 9 07:27:18 2019 +0000
+
+    add column validation
+
+commit 06bf1f5cff6f041f9c3e470329f07285d000e155
+Author: tent <ryo_special_1@yahoo.co.jp>
+Date:   Sat Mar 9 01:43:20 2019 +0000
+
+    CRUD tasks
+
+commit ea520f267634211c02afe27a7a63638ffaf0faf6
+Author: tent <ryo_special_1@yahoo.co.jp>
+Date:   Fri Mar 8 10:19:34 2019 +0000
+
+    timezone3
+
+commit 68245b08fc5135cff144f1c9a59d496665e948dc
+Author: tent <ryo_special_1@yahoo.co.jp>
+Date:   Fri Mar 8 05:38:46 2019 +0000
+
+    task model
+
+commit 6266573744c70edce705281c55cc787b241e6521
+Author: tent <ryo_special_1@yahoo.co.jp>
+Date:   Fri Mar 8 05:07:51 2019 +0000
+
+    set timezone2
+
+commit afb476d58e2ef3a1fc01ab065af023ba905c28fc
+Author: tent <ryo_special_1@yahoo.co.jp>
+Date:   Fri Mar 8 05:06:54 2019 +0000
+
+    set timezone
