@@ -8,18 +8,23 @@ use App\Task;    // 追加
 
 class TasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $tasks = Task::all();
+        $data = [];
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $tasks = $user->tasklists()->orderBy('created_at', 'desc')->paginate(10);
+            
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+            return view('tasks.index', [
+                'tasks' => $tasks,
+            ]);
+        }
 
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
+        return view('welcome', $data);
     }
 
     /**
@@ -50,14 +55,14 @@ class TasksController extends Controller
             'content' => 'required|max:191',
         ]);
 
-        $task = new Task;
-        $task->status = $request->status;    // 追加
-        $task->content = $request->content;
-        $task->save();
+        $request->user()->tasklists()->create([
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
 
         return redirect('/tasks');
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -69,9 +74,12 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
 
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+        if (\Auth::id() === $task->user_id) {
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+        }
+        return redirect('/tasks');
     }
 
     /**
@@ -85,9 +93,13 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
 
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        if (\Auth::id() === $task->user_id) {
+
+            return view('tasks.edit', [
+                'task' => $task,
+            ]);
+        }
+        return redirect('/tasks');
     }
 
     /**
@@ -106,10 +118,11 @@ class TasksController extends Controller
         ]);
 
         $task = Task::find($id);
-        $task->status = $request->status;    // 追加
-        $task->content = $request->content;
-        $task->save();
-
+        if (\Auth::id() === $task->user_id) {
+            $task->status = $request->status;    // 追加
+            $task->content = $request->content;
+            $task->save();
+        }
         return redirect('/tasks');
     }
 
@@ -123,8 +136,12 @@ class TasksController extends Controller
     public function destroy($id)
     {
         $task = Task::find($id);
-        $task->delete();
 
+        if (\Auth::id() === $task->user_id) {
+            $task->delete();
+        }
+        
         return redirect('/tasks');
     }
 }
+
